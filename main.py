@@ -13,12 +13,12 @@ if __name__ == "__main__":
     list_parser = subparsers.add_parser('list', help='Lists all animals in the zoo file.')
 
     add_parser = subparsers.add_parser('add', help='Adds a new animal to the zoo file.')
-    add_parser.add_argument('name', help='Name of the individual animal.')
+    add_parser.add_argument('name', help='Name of the individual animal to add.')
     add_parser.add_argument('type', help='Type of animal to add.', choices=['cat','dog','bird'])
 
     remove_parser = subparsers.add_parser('remove', help='Remove an animal by name OR remove animals by type.')
-    remove_parser.add_argument('-n', '--name', help='Name of the individual animal.')
-    remove_parser.add_argument('-t', '--type', help='Type of animal to add.', choices=['cat','dog','bird'])
+    remove_parser.add_argument('-n', '--name', help='Name of the individual animal to remove.')
+    remove_parser.add_argument('-t', '--type', help='Type of animals to remove.', choices=['cat','dog','bird'])
 
     arguments = parser.parse_args()
     print(arguments)
