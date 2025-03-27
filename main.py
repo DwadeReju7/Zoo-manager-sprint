@@ -17,8 +17,8 @@ if __name__ == "__main__":
     add_parser.add_argument('type', help='Type of animal to add.', choices=['cat','dog','bird'])
 
     remove_parser = subparsers.add_parser('remove', help='Remove an animal by name OR remove animals by type.')
-    add_parser.add_argument('-n', '--name', help='Name of the individual animal.')
-    add_parser.add_argument('-t', '--type', help='Type of animal to add.', choices=['cat','dog','bird'])
+    remove_parser.add_argument('-n', '--name', help='Name of the individual animal.')
+    remove_parser.add_argument('-t', '--type', help='Type of animal to add.', choices=['cat','dog','bird'])
 
     arguments = parser.parse_args()
     print(arguments)
