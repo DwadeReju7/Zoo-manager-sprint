@@ -1,13 +1,31 @@
 #! /usr/bin/env python3
 from argparse import ArgumentParser
 
+def list_animals(file):
+    print('zoo = file_manager.load(', file, ')')
+    print('for animal in zoo.get_animals():')
+    print('    print(str(animal))')
+
+def add_animal(file, name, type):
+    print('zoo = file_manager.load(', file, ')')
+    print('animal = Animal(', name, type, ')')
+    print('zoo.add_animal(animal)')
+    print('file_manager.save(zoo)')
+
+def remove_animal(file, name=None, type=None):
+    print('zoo = file_manager.load(', file, ')')
+    if name:
+        print('zoo.remove_animal(',name,')')
+    elif type:
+        print('zoo.remove_animal(',type,')')
+    print('file_manager.save(zoo)')
+
 if __name__ == "__main__":
     parser = ArgumentParser(
         prog='Zoo Manager Command-Line Utility',
         description='Manages zoo files containing animal data'
     )
     parser.add_argument('-f', '--file', help='Name of the zoo file to modify.', default='zoo_data.txt')
-
     subparsers = parser.add_subparsers(help='SUBCOMMANDS')
 
     list_parser = subparsers.add_parser('list', help='Lists all animals in the zoo file.')
