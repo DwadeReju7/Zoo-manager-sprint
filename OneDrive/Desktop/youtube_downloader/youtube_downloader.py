@@ -1,35 +1,35 @@
-# youtube_downloader.py
-# This script downloads a YouTube video using the pytubefix library.
-# It demonstrates:
-# - Importing modules and using external libraries
-# - Reading user input with the input() function
-# - Instantiating classes and calling methods
-# - Using callbacks to monitor progress
+from pytube import YouTube
 
-# Import the necessary classes and functions from pytubefix.
-from pytubefix.cli import on_progress
-from pytubefix import YouTube
+def main():
+    """Downloads the highest resolution video from a given YouTube URL with progress."""
 
-# Prompt the user for the YouTube URL.
-# The input() function reads a line from the user and returns it as a string.
-url = input("Enter YouTube URL: ")
+    url = input("Enter YouTube URL: ")
 
-# Create a YouTube object.
-# The YouTube class handles retrieving video details and streams.
-# The parameters used:
-#   - url: The video URL provided by the user.
-#   - use_oauth=True and allow_oauth_cache=True: These options enable OAuth authentication.
-#     (For many cases, you can omit these if OAuth isn’t required, but here we include them to show how parameters work.)
-#   - on_progress_callback=on_progress: This function is called periodically to show download progress.
-yt = YouTube(url, use_oauth=True, allow_oauth_cache=True, on_progress_callback=on_progress)
+    try:
+        def progress_func(stream, chunk, bytes_remaining):
+            """Displays download progress."""
+            total_size = stream.filesize
+            bytes_downloaded = total_size - bytes_remaining
+            percentage = (bytes_downloaded / total_size) * 100
+            print(f"Downloading: {percentage:.2f}%", end='\r')
 
-# Print the title of the video to confirm that the YouTube object is working.
-print("Downloading:", yt.title)
+        yt = YouTube(url, on_progress_callback=progress_func) #Removed OAuth, and corrected progress.
 
-# Get the highest resolution progressive stream available.
-# Progressive streams contain both video and audio.
-stream = yt.streams.get_highest_resolution()
+        print("Downloading:", yt.title)
 
-# Download the video to the current working directory.
-# The download() method saves the file locally.
-stream.download()
+        stream = yt.streams.get_highest_resolution()
+
+        if stream:
+            stream.download()
+            print("\nDownload completed successfully!")
+        else:
+            print("No suitable stream found.")
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    #Example of a valid URL
+    
+print ("Example of valid URL: #https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+
+if __name__ == "__main__":
+    main()
